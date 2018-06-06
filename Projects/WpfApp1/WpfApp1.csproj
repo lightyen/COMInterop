@@ -45,9 +45,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TSFInterop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\TSFInterop\TSFInterop\bin\Release\TSFInterop.dll</HintPath>
+    <Reference Include="TSFInterop">
+      <HintPath>..\TSFInterop\bin\Debug\TSFInterop.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F167E047-A727-4BF6-B205-8F6E6268561C}</ProjectGuid>
+    <ProjectGuid>{964A6988-1971-4EAA-8D27-0B5ED42FDB86}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TSFInterop</RootNamespace>

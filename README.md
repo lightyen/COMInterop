@@ -11,9 +11,9 @@
 
 ## 程式碼目錄
 
-- TSFInterop: 用COMInterop把TSF包裝成.net可用的程式庫。
+- ./Projects/TSFInterop: 用COMInterop把TSF包裝成.net可用的程式庫。
 
-- WpfApp1: 使用TSFInterop.dll的範例
+- ./Projects/WpfApp1: 使用TSFInterop.dll的範例。
 
 
 
