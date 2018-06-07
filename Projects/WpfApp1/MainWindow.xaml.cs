@@ -71,7 +71,7 @@ namespace WpfApp1 {
                     using (InputProcessorProfiles inputProcessorProfiles = new InputProcessorProfiles()) {
                         try {
                             inputProcessorProfiles.SetDefaultLanguageProfile(im.Profile);
-                            button.Content = "設定輸入法";
+                            button.Content = "設定預設輸入法";
                         } catch (Exception ex) {
                             button.Content = ex.Message;
                         }
