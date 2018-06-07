@@ -23,4 +23,6 @@
 
 [TSF API](https://msdn.microsoft.com/zh-tw/library/windows/desktop/ms538984(v=vs.85).aspx)
 
+[NyaRuRu Blog](http://nyaruru.hatenablog.com/entry/20070309/p1)
+
 https://github.com/NyaRuRu/TSF-TypeLib
