@@ -81,6 +81,15 @@ namespace System.Windows.TextServices {
             }
         }
 
+        public LANGID CurrentLanguageID {
+            get {
+                Result result = inputProcessorProfiles.GetCurrentLanguage(out var current);
+                result.CheckError();
+                return current;
+            }
+            
+        }
+
         /// <summary>
         /// 預設語言名稱
         /// </summary>
@@ -96,7 +105,7 @@ namespace System.Windows.TextServices {
         /// 獲取該語言的輸入法
         /// </summary>
         /// <param name="langid">語言</param>
-        public LanguageProfile[] GetInputMethodProfiles(LANGID langid) {
+        public LanguageProfile[] GetLanguageProfiles(LANGID langid) {
 
             List<LanguageProfile> list = new List<LanguageProfile>();
 
@@ -105,7 +114,7 @@ namespace System.Windows.TextServices {
             if (!result.OK) return list.ToArray();
 
             IntPtr p = Marshal.AllocCoTaskMem(Marshal.SizeOf<LanguageProfile>());
-            while ((result = enumerator.Next(1, p, out var fetched)).OK) {
+            while ((result = enumerator.Next(1, p, out var fetched)).HResult == 0) {
                 LanguageProfile profile = new LanguageProfile();
                 Marshal.PtrToStructure(p, profile);
                 list.Add(profile);
@@ -124,7 +133,7 @@ namespace System.Windows.TextServices {
             if (!result.OK) return list.ToArray();
 
             IntPtr p = Marshal.AllocCoTaskMem(Marshal.SizeOf<Guid>());
-            while ((result = enumerator.Next(1, p, out var fetched)).OK) {
+            while ((result = enumerator.Next(1, p, out var fetched)).HResult == 0) {
                 Guid guid = (Guid)Marshal.PtrToStructure(p, typeof(Guid));
                 list.Add(guid);
             }
@@ -138,9 +147,8 @@ namespace System.Windows.TextServices {
         /// </summary>
         /// <param name="profile">輸入法</param>
         public string GetLanguageProfileDescription(LanguageProfile profile) {
-            inputProcessorProfiles.GetLanguageProfileDescription(profile.clsid, profile.langid, profile.guidProfile, out IntPtr p);
-            string desc = Marshal.PtrToStringBSTR(p);
-            Marshal.FreeBSTR(p);
+            Result result = inputProcessorProfiles.GetLanguageProfileDescription(profile.clsid, profile.langid, profile.guidProfile, out string desc);
+            result.CheckError();
             return desc;
         }
 
@@ -153,9 +161,38 @@ namespace System.Windows.TextServices {
             return enable;
         }
 
+        /// <summary>
+        /// 切換至輸入法 (需啟用)
+        /// </summary>
+        /// <param name="profile">輸入法</param>
         public void ActivateLanguageProfile(LanguageProfile profile) {
-            Result result = inputProcessorProfiles.ActivateLanguageProfile(profile.clsid, profile.langid, profile.guidProfile);
+
+            inputProcessorProfiles.GetCurrentLanguage(out var current_langid);
+            Result result = 0;
+            if (current_langid != profile.langid) {
+                // 先切換語言才能切換輸入法
+                result = inputProcessorProfiles.ChangeCurrentLanguage(profile.langid);
+                result.CheckError();
+            }
+            result = inputProcessorProfiles.ActivateLanguageProfile(profile.clsid, profile.langid, profile.guidProfile);
             result.CheckError();
+        }
+
+        /// <summary>
+        /// 獲得當前輸入法名稱
+        /// </summary>
+        /// <returns></returns>
+        public string GetCurrentLanguageProfileName() {
+            LANGID current = CurrentLanguageID;
+            var profiles = GetLanguageProfiles(current);
+            if (profiles.Length > 0) {
+                foreach (var profile in profiles) {
+                    if (profile.fActive) {
+                        return $"{GetLanguageName(current)} - {GetLanguageProfileDescription(profile)}";
+                    }
+                }
+            }
+            return "";
         }
 
         /// <summary>

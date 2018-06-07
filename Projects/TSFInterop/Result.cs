@@ -7,51 +7,60 @@ using System.Runtime.InteropServices;
 
 namespace Interop {
     internal class Result {
-        public uint HResult { get; private set; }
+        public int HResult { get; private set; }
 
         public Result(int hResult) {
-            HResult = (uint)(hResult);
+            HResult = hResult;
         }
 
         public bool OK {
             get {
-                return HResult == 0;
+                return HResult >= 0;
+            }
+        }
+
+        public bool Failed {
+            get {
+                return HResult < 0;
             }
         }
 
         public void CheckError() {
-            if (HResult != 0) {
+            if (!OK) {
                 COMException ex = null;
                 switch (HResult) {
-                    case 0x80004004:
+                    case unchecked((int)0x80004004):
                         ex = new COMException("E_ABORT: Operation aborted");
                         break;
-                    case 0x80070005:
+                    case unchecked((int)0x80070005):
                         ex = new COMException("E_ACCESSDENIED: General access denied error");
                         break;
-                    case 0x80004005:
+                    case unchecked((int)0x80004005):
                         ex = new COMException("E_FAIL: 	Unspecified failure");
                         break;
-                    case 0x80070006:
+                    case unchecked((int)0x80070006):
                         ex = new COMException("E_HANDLE: Handle that is not valid");
                         break;
-                    case 0x80070057:
+                    case unchecked((int)0x80070057):
                         ex = new COMException("E_INVALIDARG: One or more arguments are not valid");
                         break;
-                    case 0x80004002:
+                    case unchecked((int)0x80004002):
                         ex = new COMException("E_NOINTERFACE: No such interface supported");
                         break;
-                    case 0x80004001:
+                    case unchecked((int)0x80004001):
                         ex = new COMException("E_NOTIMPL: Not implemented");
                         break;
-                    case 0x8007000E:
+                    case unchecked((int)0x8007000E):
                         ex = new COMException("E_OUTOFMEMORY: Failed to allocate necessary memory");
                         break;
-                    case 0x80004003:
+                    case unchecked((int)0x80004003):
                         ex = new COMException("E_POINTER: 	Pointer that is not valid");
                         break;
-                    case 0x8000FFFF:
+                    case unchecked((int)0x8000FFFF):
                         ex = new COMException("E_UNEXPECTED: Unexpected failure");
+                        break;
+                    default:
+                        ex = new COMException($"Unexpected failure: 0x{HResult:X8}");
                         break;
                 }
                 if (ex != null) throw ex;

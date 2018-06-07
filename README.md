@@ -22,3 +22,5 @@
 [Text Services Framework](https://msdn.microsoft.com/zh-tw/library/windows/desktop/ms629032(v=vs.85).aspx)
 
 [TSF API](https://msdn.microsoft.com/zh-tw/library/windows/desktop/ms538984(v=vs.85).aspx)
+
+https://github.com/NyaRuRu/TSF-TypeLib

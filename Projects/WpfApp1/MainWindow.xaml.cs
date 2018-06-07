@@ -24,14 +24,16 @@ namespace WpfApp1 {
                 //var kk = inputProcessorProfiles.GetInputProcessorInfo();
 
                 foreach (var id in inputProcessorProfiles.LanguageIDs) {
-                    var profiles = inputProcessorProfiles.GetInputMethodProfiles(id);
+                    var profiles = inputProcessorProfiles.GetLanguageProfiles(id);
                     string langName = inputProcessorProfiles.GetLanguageName(id);
                     foreach (var profile in profiles) {
-
-                        collec.Add(new InputMethod() {
-                            Profile = profile,
-                            Description = $"{langName} - {inputProcessorProfiles.GetLanguageProfileDescription(profile)} {inputProcessorProfiles.IsEnabledLanguageProfile(profile)}"
-                        });
+                        
+                        if (inputProcessorProfiles.IsEnabledLanguageProfile(profile)) {
+                            collec.Add(new InputMethod() {
+                                Profile = profile,
+                                Description = $"{langName} - {inputProcessorProfiles.GetLanguageProfileDescription(profile)}"
+                            });
+                        }
                     }
                 }
             }
@@ -53,23 +55,10 @@ namespace WpfApp1 {
         }
 
         private void CurrentInputMethod_Click(object sender, RoutedEventArgs e) {
-            using (InputProcessorProfiles inputProcessorProfiles = new InputProcessorProfiles()) {
-                // inputProcessorProfiles.ActivateLanguageProfile(im.Profile);
-            }
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            if (sender is TextBox tb) {
-                //if (tb.Text.EndsWith("1234")) {
-                //    int i = InputMethodListBox.SelectedIndex;
-                //    if (i >= 0) {
-                //        var im = InputMethodListBox.SelectedValue as InputMethod;
-                //        using (InputProcessorProfiles inputProcessorProfiles = new InputProcessorProfiles()) {
-                //            inputProcessorProfiles.ActivateLanguageProfile(im.Profile);
-                //        }
-
-                //    }
-                //}
+            if (sender is Button button) {
+                using (InputProcessorProfiles inputProcessorProfiles = new InputProcessorProfiles()) {
+                    button.Content = inputProcessorProfiles.GetCurrentLanguageProfileName();
+                }
             }
         }
     }

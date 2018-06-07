@@ -17,47 +17,59 @@ namespace Interop {
     internal interface ITfInputProcessorProfiles {
         // 方法名稱無所謂,按照順序排就行,但為了方便使用還是參考"msctf.h"的方法以及參數的名稱.
         [PreserveSig]
-        int Register(ref Guid clsid);
+        int Register([In] ref Guid clsid);
         [PreserveSig]
-        int Unregister(ref Guid clsid);
+        int Unregister([In] ref Guid clsid);
         [PreserveSig]
-        int AddLanguageProfile(ref Guid clsid, LANGID langid, ref Guid guidProfile, [MarshalAs(UnmanagedType.LPWStr)] string pchDesc, UInt32 cchDesc, [MarshalAs(UnmanagedType.LPWStr)] string pchIconFile, UInt32 cchFile, UInt32 uIconIndex);
+        int AddLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [In] [MarshalAs(UnmanagedType.LPWStr)] string pchDesc, UInt32 cchDesc, [In] [MarshalAs(UnmanagedType.LPWStr)] string pchIconFile, [In] UInt32 cchFile, [In] UInt32 uIconIndex);
         [PreserveSig]
-        int RemoveLanguageProfile(ref Guid rclsid, LANGID langid, ref Guid guidProfile);
+        int RemoveLanguageProfile([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfile);
         [PreserveSig]
-        int EnumInputProcessorInfo(out IEnumGUID ppEnum);
+        int EnumInputProcessorInfo([Out] out IEnumGUID ppEnum);
         [PreserveSig]
-        int GetDefaultLanguageProfile(LANGID langid, ref Guid catid, out Guid clsid, out Guid profile);
+        int GetDefaultLanguageProfile([In] LANGID langid, [In] ref Guid catid, [Out] out Guid clsid, [Out] out Guid profile);
         [PreserveSig]
-        int SetDefaultLanguageProfile(LANGID langid, ref Guid catid, ref Guid pguidProfile);
+        int SetDefaultLanguageProfile([In] LANGID langid, [In] ref Guid catid, [In] ref Guid pguidProfile);
         [PreserveSig]
-        int ActivateLanguageProfile(ref Guid rclsid, LANGID langid, ref Guid guidProfiles);
+        int ActivateLanguageProfile([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfiles);
         [PreserveSig]
-        int GetActiveLanguageProfile(ref Guid rclsid, out LANGID plangid, out Guid pguidProfile);
+        int GetActiveLanguageProfile([In] ref Guid rclsid, [Out] out LANGID plangid, [Out] out Guid pguidProfile);
         [PreserveSig]
-        int GetLanguageProfileDescription(ref Guid clsid, LANGID langid, ref Guid guidProfile, out IntPtr pbstrProfile);
+        int GetLanguageProfileDescription([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [Out, MarshalAs(UnmanagedType.BStr)] out string pbstrProfile);
         [PreserveSig]
-        int GetCurrentLanguage(out LANGID langid);
+        int GetCurrentLanguage([Out] out LANGID langid);
+        /// <summary>
+        /// 切換語言
+        /// </summary>
         [PreserveSig]
-        int ChangeCurrentLanguage(LANGID langid);
+        int ChangeCurrentLanguage([In] LANGID langid);
+        /// <summary>
+        /// 獲取所有可取得的語言
+        /// </summary>
         [PreserveSig]
-        int GetLanguageList(out IntPtr ppLangId, out UInt32 count);
+        int GetLanguageList([Out] out IntPtr ppLangId, [Out] out UInt32 count);
         /// <summary>
         /// 列舉在這個LANGID底下的輸入法
         /// </summary>
         [PreserveSig]
-        int EnumLanguageProfiles(LANGID langid, out IEnumTfLanguageProfiles ppEnum);
+        int EnumLanguageProfiles([In] LANGID langid, [Out] out IEnumTfLanguageProfiles ppEnum);
+        /// <summary>
+        /// 啟用輸入法
+        /// </summary>
         [PreserveSig]
-        int EnableLanguageProfile(ref Guid rclsid, LANGID langid, ref Guid guidProfile, [MarshalAs(UnmanagedType.Bool)] bool fEnable);
+        int EnableLanguageProfile([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfile, [In, MarshalAs(UnmanagedType.Bool)] bool fEnable);
         /// <summary>
         /// 查詢這個輸入法是否啟用
         /// </summary>
         [PreserveSig]
-        int IsEnabledLanguageProfile(ref Guid rclsid, LANGID langid, ref Guid guidProfile, [Out, MarshalAs(UnmanagedType.Bool)] out bool pfEnable);
+        int IsEnabledLanguageProfile([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfile, [Out, MarshalAs(UnmanagedType.Bool)] out bool pfEnable);
+        /// <summary>
+        /// 啟用或停用輸入法
+        /// </summary>
         [PreserveSig]
-        int EnableLanguageProfileByDefault(ref Guid rclsid, LANGID langid, ref Guid guidProfile, [MarshalAs(UnmanagedType.Bool)] bool fEnable);
+        int EnableLanguageProfileByDefault([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfile, [In, MarshalAs(UnmanagedType.Bool)] bool fEnable);
         [PreserveSig]
-        int SubstituteKeyboardLayout(ref Guid rclsid, UInt16 langid, ref Guid guidProfile, IntPtr hKL);
+        int SubstituteKeyboardLayout([In] ref Guid rclsid, [In] UInt16 langid, [In] ref Guid guidProfile, [In] IntPtr hKL);
     }
 
     /// <summary>
@@ -145,11 +157,25 @@ namespace Interop {
         [DllImport("kernel32.dll")]
         public static extern int GetCurrentThreadId();
 
-        public static readonly Guid GUID_TFCAT_TIP_KEYBOARD;
-
-        static NativeAPI() {
-            // 不知道幹嘛用的,先放著
-            GUID_TFCAT_TIP_KEYBOARD = new Guid("34745C63-B2F0-4784-8B67-5E12C8701A31");
-        }
+        // 不知道幹嘛用的,先放著,
+        // 可能GetDefaultLanguageProfile()會用到
+        public static readonly Guid GUID_TFCAT_CATEGORY_OF_TIP = new Guid("534c48c1-0607-4098-a521-4fc899c73e90");
+        public static readonly Guid GUID_TFCAT_TIP_KEYBOARD = new Guid("34745c63-b2f0-4784-8b67-5e12c8701a31");
+        public static readonly Guid GUID_TFCAT_TIP_SPEECH = new Guid("b5a73cd1-8355-426b-a161-259808f26b14");
+        public static readonly Guid GUID_TFCAT_TIP_HANDWRITING = new Guid("246ecb87-c2f2-4abe-905b-c8b38add2c43");
+        public static readonly Guid GUID_TFCAT_TIPCAP_SECUREMODE = new Guid("49d2f9ce-1f5e-11d7-a6d3-00065b84435c");
+        public static readonly Guid GUID_TFCAT_TIPCAP_UIELEMENTENABLED = new Guid("49d2f9cf-1f5e-11d7-a6d3-00065b84435c");
+        public static readonly Guid GUID_TFCAT_TIPCAP_INPUTMODECOMPARTMENT = new Guid("ccf05dd7-4a87-11d7-a6e2-00065b84435c");
+        public static readonly Guid GUID_TFCAT_TIPCAP_COMLESS = new Guid("364215d9-75bc-11d7-a6ef-00065b84435c");
+        public static readonly Guid GUID_TFCAT_TIPCAP_WOW16 = new Guid("364215da-75bc-11d7-a6ef-00065b84435c");
+        public static readonly Guid GUID_TFCAT_TIPCAP_IMMERSIVESUPPORT = new Guid("13A016DF-560B-46CD-947A-4C3AF1E0E35D");
+        public static readonly Guid GUID_TFCAT_TIPCAP_SYSTRAYSUPPORT = new Guid("13A016DF-560B-46CD-947A-4C3AF1E0E35D");
+        public static readonly Guid GUID_TFCAT_PROP_AUDIODATA = new Guid("9b7be3a9-e8ab-4d47-a8fe-254fa423436d");
+        public static readonly Guid GUID_TFCAT_PROP_INKDATA = new Guid("7c6a82ae-b0d7-4f14-a745-14f28b009d61");
+        public static readonly Guid GUID_TFCAT_PROPSTYLE_CUSTOM = new Guid("25504FB4-7BAB-4BC1-9C69-CF81890F0EF5");
+        public static readonly Guid GUID_TFCAT_PROPSTYLE_STATIC = new Guid("565fb8d8-6bd4-4ca1-b223-0f2ccb8f4f96");
+        public static readonly Guid GUID_TFCAT_PROPSTYLE_STATICCOMPACT = new Guid("85f9794b-4d19-40d8-8864-4e747371a66d");
+        public static readonly Guid GUID_TFCAT_DISPLAYATTRIBUTEPROVIDER = new Guid("046b8c80-1647-40f7-9b21-b93b81aabc1b");
+        public static readonly Guid GUID_TFCAT_DISPLAYATTRIBUTEPROPERTY = new Guid("b95f181b-ea4c-4af1-8056-7c321abbb091");
     }
 }

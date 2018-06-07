@@ -18,9 +18,10 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBox Height="30" TextChanged="TextBox_TextChanged" />
-            <Button Content="選擇輸入法" Height="50" Width="300" Click="SelectInputMethod_Click" />
-            <Button Content="當前輸入法" Height="50" Width="300" Click="CurrentInputMethod_Click" />
+            
+            <Button Content="選擇輸入法" Margin="5,5" Height="50" Width="300" Click="SelectInputMethod_Click" />
+            <Button Content="當前輸入法" Margin="5,5" Height="50" Width="300" Click="CurrentInputMethod_Click" />
+            <TextBox Height="150" Margin="5,10" FontSize="20" />
         </StackPanel>
     </Grid>
 </Window>
