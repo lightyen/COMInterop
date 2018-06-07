@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 namespace Interop {
+    /// <summary>
+    /// 錯誤碼
+    /// </summary>
     internal class Result {
         public int HResult { get; private set; }
 

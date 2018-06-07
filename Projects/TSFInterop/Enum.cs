@@ -44,5 +44,4 @@ namespace System.Windows.TextServices {
         GeorgianTraditional = 0,
         GeorgianModern = 1,
     }
-
 }

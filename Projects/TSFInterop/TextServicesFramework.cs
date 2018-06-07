@@ -20,22 +20,43 @@ namespace Interop {
         int Register([In] ref Guid clsid);
         [PreserveSig]
         int Unregister([In] ref Guid clsid);
+        /// <summary>
+        /// 加入一個新的輸入法
+        /// </summary>
         [PreserveSig]
         int AddLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [In] [MarshalAs(UnmanagedType.LPWStr)] string pchDesc, UInt32 cchDesc, [In] [MarshalAs(UnmanagedType.LPWStr)] string pchIconFile, [In] UInt32 cchFile, [In] UInt32 iconIndex);
+        /// <summary>
+        /// 移除輸入法
+        /// </summary>
         [PreserveSig]
         int RemoveLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile);
         [PreserveSig]
         int EnumInputProcessorInfo([Out] out IEnumGUID enumerator);
+        /// <summary>
+        /// 獲得預設的輸入法
+        /// </summary>
         [PreserveSig]
         int GetDefaultLanguageProfile([In] LANGID langid, [In] ref Guid catid, [Out] out Guid clsid, [Out] out Guid profile);
+        /// <summary>
+        /// 設定預設輸入法
+        /// </summary>
         [PreserveSig]
         int SetDefaultLanguageProfile([In] LANGID langid, [In] ref Guid clsid, [In] ref Guid pguidProfile);
+        /// <summary>
+        /// 切換至所選的輸入法
+        /// </summary>
         [PreserveSig]
         int ActivateLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfiles);
         [PreserveSig]
         int GetActiveLanguageProfile([In] ref Guid clsid, [Out] out LANGID langid, [Out] out Guid pguidProfile);
+        /// <summary>
+        /// 獲得輸入法的名稱
+        /// </summary>
         [PreserveSig]
         int GetLanguageProfileDescription([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [Out, MarshalAs(UnmanagedType.BStr)] out string pbstrProfile);
+        /// <summary>
+        /// 獲取當前語言
+        /// </summary>
         [PreserveSig]
         int GetCurrentLanguage([Out] out LANGID langid);
         /// <summary>
@@ -78,10 +99,13 @@ namespace Interop {
     [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     [Guid("3D61BF11-AC5F-42C8-A4CB-931BCC28C744")]
     internal interface IEnumTfLanguageProfiles {
+        /// <summary>
+        /// 取得克隆
+        /// </summary>
         [PreserveSig]
         int Clone(out IEnumTfLanguageProfiles ppEnum);
         /// <summary>
-        /// 下一個
+        /// 取得下一個
         /// </summary>
         [PreserveSig]
         int Next(UInt32 count, IntPtr profiles, out UInt32 pcFetch);
@@ -98,7 +122,7 @@ namespace Interop {
     [Guid("0002E000-0000-0000-C000-000000000046")]
     internal interface IEnumGUID {
         /// <summary>
-        /// 下一個
+        /// 取得下一個
         /// </summary>
         [PreserveSig]
         int Next(UInt32 count, IntPtr rgelt, out UInt32 pceltFetched);
@@ -111,7 +135,7 @@ namespace Interop {
     }
 
     /// <summary>
-    /// 一些將會引用到的 Win32 API
+    /// 一些可能會引用到的 Win32 API 和 包裝後的API
     /// </summary>
     internal static class NativeAPI {
 
