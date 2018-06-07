@@ -196,6 +196,14 @@ namespace System.Windows.TextServices {
         }
 
         /// <summary>
+        /// 設定預設輸入法
+        /// </summary>
+        public void SetDefaultLanguageProfile(LanguageProfile profile) {
+            Result result = inputProcessorProfiles.SetDefaultLanguageProfile(profile.langid, profile.clsid, profile.guidProfile);
+            result.CheckError();
+        }
+
+        /// <summary>
         /// finalizer
         /// </summary>
         ~InputProcessorProfiles() {

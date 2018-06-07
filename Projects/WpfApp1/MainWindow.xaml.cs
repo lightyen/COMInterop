@@ -61,6 +61,24 @@ namespace WpfApp1 {
                 }
             }
         }
+
+        private void SetDefaultInputMethod_Click(object sender, RoutedEventArgs e) {
+            if (sender is Button button) {
+
+                int i = InputMethodListBox.SelectedIndex;
+                if (i >= 0) {
+                    var im = InputMethodListBox.SelectedValue as InputMethod;
+                    using (InputProcessorProfiles inputProcessorProfiles = new InputProcessorProfiles()) {
+                        try {
+                            inputProcessorProfiles.SetDefaultLanguageProfile(im.Profile);
+                            button.Content = "設定輸入法";
+                        } catch (Exception ex) {
+                            button.Content = ex.Message;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public class InputMethod {

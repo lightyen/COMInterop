@@ -21,19 +21,19 @@ namespace Interop {
         [PreserveSig]
         int Unregister([In] ref Guid clsid);
         [PreserveSig]
-        int AddLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [In] [MarshalAs(UnmanagedType.LPWStr)] string pchDesc, UInt32 cchDesc, [In] [MarshalAs(UnmanagedType.LPWStr)] string pchIconFile, [In] UInt32 cchFile, [In] UInt32 uIconIndex);
+        int AddLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [In] [MarshalAs(UnmanagedType.LPWStr)] string pchDesc, UInt32 cchDesc, [In] [MarshalAs(UnmanagedType.LPWStr)] string pchIconFile, [In] UInt32 cchFile, [In] UInt32 iconIndex);
         [PreserveSig]
-        int RemoveLanguageProfile([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfile);
+        int RemoveLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile);
         [PreserveSig]
-        int EnumInputProcessorInfo([Out] out IEnumGUID ppEnum);
+        int EnumInputProcessorInfo([Out] out IEnumGUID enumerator);
         [PreserveSig]
         int GetDefaultLanguageProfile([In] LANGID langid, [In] ref Guid catid, [Out] out Guid clsid, [Out] out Guid profile);
         [PreserveSig]
-        int SetDefaultLanguageProfile([In] LANGID langid, [In] ref Guid catid, [In] ref Guid pguidProfile);
+        int SetDefaultLanguageProfile([In] LANGID langid, [In] ref Guid clsid, [In] ref Guid pguidProfile);
         [PreserveSig]
-        int ActivateLanguageProfile([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfiles);
+        int ActivateLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfiles);
         [PreserveSig]
-        int GetActiveLanguageProfile([In] ref Guid rclsid, [Out] out LANGID plangid, [Out] out Guid pguidProfile);
+        int GetActiveLanguageProfile([In] ref Guid clsid, [Out] out LANGID langid, [Out] out Guid pguidProfile);
         [PreserveSig]
         int GetLanguageProfileDescription([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [Out, MarshalAs(UnmanagedType.BStr)] out string pbstrProfile);
         [PreserveSig]
@@ -52,24 +52,24 @@ namespace Interop {
         /// 列舉在這個LANGID底下的輸入法
         /// </summary>
         [PreserveSig]
-        int EnumLanguageProfiles([In] LANGID langid, [Out] out IEnumTfLanguageProfiles ppEnum);
+        int EnumLanguageProfiles([In] LANGID langid, [Out] out IEnumTfLanguageProfiles enumerator);
         /// <summary>
         /// 啟用輸入法
         /// </summary>
         [PreserveSig]
-        int EnableLanguageProfile([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfile, [In, MarshalAs(UnmanagedType.Bool)] bool fEnable);
+        int EnableLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [In, MarshalAs(UnmanagedType.Bool)] bool fEnable);
         /// <summary>
         /// 查詢這個輸入法是否啟用
         /// </summary>
         [PreserveSig]
-        int IsEnabledLanguageProfile([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfile, [Out, MarshalAs(UnmanagedType.Bool)] out bool pfEnable);
+        int IsEnabledLanguageProfile([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [Out, MarshalAs(UnmanagedType.Bool)] out bool fEnable);
         /// <summary>
         /// 啟用或停用輸入法
         /// </summary>
         [PreserveSig]
-        int EnableLanguageProfileByDefault([In] ref Guid rclsid, [In] LANGID langid, [In] ref Guid guidProfile, [In, MarshalAs(UnmanagedType.Bool)] bool fEnable);
+        int EnableLanguageProfileByDefault([In] ref Guid clsid, [In] LANGID langid, [In] ref Guid guidProfile, [In, MarshalAs(UnmanagedType.Bool)] bool fEnable);
         [PreserveSig]
-        int SubstituteKeyboardLayout([In] ref Guid rclsid, [In] UInt16 langid, [In] ref Guid guidProfile, [In] IntPtr hKL);
+        int SubstituteKeyboardLayout([In] ref Guid clsid, [In] UInt16 langid, [In] ref Guid guidProfile, [In] IntPtr hKL);
     }
 
     /// <summary>
