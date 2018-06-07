@@ -81,6 +81,9 @@ namespace System.Windows.TextServices {
             }
         }
 
+        /// <summary>
+        /// 當前語言ID
+        /// </summary>
         public LANGID CurrentLanguageID {
             get {
                 Result result = inputProcessorProfiles.GetCurrentLanguage(out var current);
